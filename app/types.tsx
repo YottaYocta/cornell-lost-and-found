@@ -1,15 +1,15 @@
-export interface ItemDataEntry {
+export interface ItemData {
   name: string;
   image?: string; // link for now
   description?: string;
-  contact: string;
   location?: string;
   timeLost?: Date;
   timePosted: Date;
   resolved: boolean;
 }
 
-export interface MissingEntry extends ItemDataEntry {
+export interface MissingItem extends ItemData {
+  contact: string;
   messages: Message[];
 }
 
@@ -20,7 +20,7 @@ export enum SightingStatus {
   OTHER = "other",
 }
 
-export interface SightingEntry extends ItemDataEntry {
+export interface ItemSighting extends ItemData {
   status: SightingStatus;
 }
 
@@ -28,4 +28,8 @@ export interface Message {
   timePosted: Date;
   text: string;
   image: string;
+}
+
+export interface MissingDataResponse {
+  missingItems: MissingItem[];
 }

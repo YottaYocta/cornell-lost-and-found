@@ -18,7 +18,7 @@ import { Textarea } from "@/components/ui/textarea";
 const LostSchema = z.object({
   name: z.string().min(1),
   image: z.optional(z.string().url()),
-  description: z.optional(z.string().min(1)),
+  description: z.string().min(1),
   contact: z.string().min(1),
 });
 
@@ -29,6 +29,7 @@ const LostForm = () => {
     resolver: zodResolver(LostSchema),
     defaultValues: {
       name: "",
+      description: "",
       contact: "",
     },
   });

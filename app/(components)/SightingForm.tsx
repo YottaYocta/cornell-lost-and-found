@@ -26,8 +26,8 @@ import { SightingStatus } from "../types";
 const SightingSchema = z.object({
   name: z.string().min(1),
   image: z.optional(z.string().url()),
-  description: z.optional(z.string().min(1)),
-  contact: z.string().min(1),
+  description: z.string().min(1),
+  contact: z.optional(z.string().min(1)),
   sightingStatus: z.enum([
     SightingStatus.DROPPED_AT_CENTER,
     SightingStatus.IN_POSSESSION,
@@ -43,7 +43,7 @@ const SightingForm = () => {
     resolver: zodResolver(SightingSchema),
     defaultValues: {
       name: "",
-      contact: "",
+      description: "",
       sightingStatus: SightingStatus.LEFT_AT_LOCATION,
     },
   });

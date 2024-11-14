@@ -8,6 +8,7 @@ import {
 } from "@/components/ui/card";
 import LostForm from "./(components)/LostForm";
 import SightingForm from "./(components)/SightingForm";
+import Link from "next/link";
 /*
 const sightingSchema = z.object({
   name: z.string().min(5).max(200),
@@ -28,7 +29,9 @@ export default function Home() {
   return (
     <div className="w-screen h-screen overflow-hidden flex items-center justify-center gap-8">
       <div className="flex flex-col gap-4 w-80">
-        <Button className="w-full">See Current Sightings</Button>
+        <Link href={"/missing"}>
+          <Button className="w-full">See Current Sightings</Button>
+        </Link>
         <Card>
           <CardHeader>
             <CardTitle>Lost Something?</CardTitle>
