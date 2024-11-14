@@ -28,23 +28,25 @@ const sightingSchema = z.object({
 export default function Home() {
   return (
     <div className="w-screen h-screen overflow-hidden flex items-center justify-center gap-8">
-      <div className="flex flex-col gap-4 w-80">
-        <Link href={"/missing"}>
+      <div className="flex flex-col gap-4 w-80 h-5/6">
+        <Link href={"/sighting"}>
           <Button className="w-full">See Current Sightings</Button>
         </Link>
-        <Card>
+        <Card className="flex-1 flex flex-col">
           <CardHeader>
             <CardTitle>Lost Something?</CardTitle>
             <CardDescription>Enter lost item information</CardDescription>
           </CardHeader>
-          <CardContent>
+          <CardContent className="flex-1">
             <LostForm></LostForm>
           </CardContent>
         </Card>
       </div>
-      <div className="flex flex-col gap-4 w-80">
-        <Button className="w-full">See Current Missing Items</Button>
-        <Card>
+      <div className="flex flex-col gap-4 w-80 h-5/6">
+        <Link href={"/missing"}>
+          <Button className="w-full">See Current Missing Items</Button>
+        </Link>
+        <Card className="flex-1">
           <CardHeader>
             <CardTitle>Found Something?</CardTitle>
             <CardDescription>Let the community know</CardDescription>

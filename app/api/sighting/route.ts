@@ -1,13 +1,13 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { MissingItem, MissingDataResponse } from "../../types";
+import { ItemSighting, seenItemsResponse, SightingStatus } from "../../types";
 
-const fakeMissingItemData: MissingItem[] = [
+const fakeSeenItemData: ItemSighting[] = [
   {
     name: "Green hoodie",
     contact: "832-800-9103",
     description:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce et orci vitae neque sollicitudin mollis. Curabitur auctor.",
-    messages: [],
+    status: SightingStatus.LEFT_AT_LOCATION,
     timePosted: new Date(),
     resolved: false,
   },
@@ -16,7 +16,7 @@ const fakeMissingItemData: MissingItem[] = [
     contact: "abc123@cornell.edu",
     description:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus laoreet dui purus, ut facilisis erat dictum vitae.",
-    messages: [],
+    status: SightingStatus.IN_POSSESSION,
     timePosted: new Date(),
     resolved: false,
   },
@@ -25,7 +25,7 @@ const fakeMissingItemData: MissingItem[] = [
     contact: "IG: @abc123",
     description:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas auctor metus ut dolor iaculis, ac lacinia felis laoreet.",
-    messages: [],
+    status: SightingStatus.IN_POSSESSION,
     timePosted: new Date(),
     resolved: true,
   },
@@ -34,7 +34,7 @@ const fakeMissingItemData: MissingItem[] = [
     contact: "john_doe@yahoo.com",
     description:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse potenti. Sed malesuada velit non lorem bibendum, a interdum arcu euismod.",
-    messages: [],
+    status: SightingStatus.IN_POSSESSION,
     timePosted: new Date(),
     resolved: false,
   },
@@ -43,7 +43,7 @@ const fakeMissingItemData: MissingItem[] = [
     contact: "mike123@outlook.com",
     description:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam non quam ut felis venenatis facilisis. Vivamus in eros in purus malesuada dignissim.",
-    messages: [],
+    status: SightingStatus.IN_POSSESSION,
     timePosted: new Date(),
     resolved: false,
   },
@@ -52,7 +52,7 @@ const fakeMissingItemData: MissingItem[] = [
     contact: "emma_smith@icloud.com",
     description:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec sollicitudin lacus eget quam tristique, eu tincidunt erat venenatis.",
-    messages: [],
+    status: SightingStatus.IN_POSSESSION,
     timePosted: new Date(),
     resolved: true,
   },
@@ -61,7 +61,7 @@ const fakeMissingItemData: MissingItem[] = [
     contact: "lucas_lee@aol.com",
     description:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut quis orci sit amet libero vulputate tempor sit amet id libero.",
-    messages: [],
+    status: SightingStatus.IN_POSSESSION,
     timePosted: new Date(),
     resolved: true,
   },
@@ -70,7 +70,7 @@ const fakeMissingItemData: MissingItem[] = [
     contact: "sara_white@gmail.com",
     description:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque tincidunt felis magna, sit amet sollicitudin ante malesuada eget. Vivamus accumsan risus sit amet urna vehicula.",
-    messages: [],
+    status: SightingStatus.IN_POSSESSION,
     timePosted: new Date(),
     resolved: false,
   },
@@ -79,7 +79,7 @@ const fakeMissingItemData: MissingItem[] = [
     contact: "alex_perez@protonmail.com",
     description:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer in arcu magna. Aliquam erat volutpat. Fusce bibendum quam ac nisi consectetur, a suscipit orci fringilla.",
-    messages: [],
+    status: SightingStatus.IN_POSSESSION,
     timePosted: new Date(),
     resolved: false,
   },
@@ -88,15 +88,15 @@ const fakeMissingItemData: MissingItem[] = [
     contact: "rachel_king@google.com",
     description:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed a felis ut libero tincidunt porttitor. Vivamus vel lectus quis dui iaculis pharetra.",
-    messages: [],
+    status: SightingStatus.IN_POSSESSION,
     timePosted: new Date(),
     resolved: false,
   },
 ];
 
 export const GET = async () => {
-  const missingData: MissingDataResponse = {
-    missingItems: fakeMissingItemData,
+  const seenData: seenItemsResponse = {
+    itemsSeen: fakeSeenItemData,
   };
-  return Response.json(missingData);
+  return Response.json(seenData);
 };

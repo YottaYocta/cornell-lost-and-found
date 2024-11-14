@@ -21,6 +21,7 @@ export enum SightingStatus {
 }
 
 export interface ItemSighting extends ItemData {
+  contact?: string;
   status: SightingStatus;
 }
 
@@ -32,4 +33,8 @@ export interface Message {
 
 export interface MissingDataResponse {
   missingItems: MissingItem[];
+}
+
+export interface seenItemsResponse {
+  itemsSeen: ItemSighting[];
 }
