@@ -44,6 +44,7 @@ const SightingForm = () => {
     defaultValues: {
       name: "",
       description: "",
+      image: "",
       sightingStatus: SightingStatus.LEFT_AT_LOCATION,
     },
   });

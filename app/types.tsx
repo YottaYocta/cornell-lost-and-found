@@ -33,6 +33,6 @@ export interface MissingDataResponse {
   missingItems: MissingItem[];
 }
 
-export interface seenItemsResponse {
-  itemsSeen: ItemSighting[];
+export interface itemSightingsResponse {
+  itemSightings: ItemSighting[];
 }

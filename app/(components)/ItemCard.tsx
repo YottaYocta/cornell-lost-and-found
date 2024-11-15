@@ -12,7 +12,7 @@ const ItemCard = ({ itemData }: { itemData: ItemData }) => {
       </CardHeader>
       <CardContent>
         {itemData.image ? (
-          <Image alt={"image of " + itemData.name} src={itemData.image}></Image>
+          <image width={200} height={200} href={itemData.image}></image>
         ) : (
           <></>
         )}
@@ -23,7 +23,11 @@ const ItemCard = ({ itemData }: { itemData: ItemData }) => {
               "..."
             : itemData.description}
         </p>
-        {itemData.timePosted ? <p>{itemData.timePosted.toString()}</p> : <></>}
+        {itemData.timePosted ? (
+          <p>{new Date(itemData.timePosted).toDateString()}</p>
+        ) : (
+          <></>
+        )}
       </CardContent>
     </Card>
   );

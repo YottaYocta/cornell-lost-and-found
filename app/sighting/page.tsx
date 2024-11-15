@@ -1,5 +1,5 @@
 "use client";
-import { seenItemsResponse, ItemSighting } from "../types";
+import { itemSightingsResponse, ItemSighting } from "../types";
 import { useEffect, useState } from "react";
 import {
   Card,
@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/card";
 import ItemCard from "../(components)/ItemCard";
 
-const getItemSightingData: () => Promise<seenItemsResponse> = () => {
+const getItemSightingData: () => Promise<itemSightingsResponse> = () => {
   return fetch("api/sighting").then((res) => {
     if (!res.ok)
       throw new Error(
@@ -22,15 +22,16 @@ const getItemSightingData: () => Promise<seenItemsResponse> = () => {
 };
 
 const MissingPage = () => {
-  const [missingItemData, setItemSightingData] = useState<ItemSighting[]>([]);
+  const [itemSightingData, setItemSightingData] = useState<ItemSighting[]>([]);
 
   useEffect(() => {
     updateData();
   }, []);
 
   const updateData = async () => {
-    const data: seenItemsResponse = await getItemSightingData();
-    setItemSightingData(data.itemsSeen);
+    const data: itemSightingsResponse = await getItemSightingData();
+    console.log(data);
+    setItemSightingData(data.itemSightings);
   };
 
   return (
@@ -39,8 +40,8 @@ const MissingPage = () => {
         <p className="text-5xl">Recent Sightings</p>
       </div>
       <div className="w-full flex flex-row flex-wrap justify-start gap-4">
-        {missingItemData.map((missingItem, index) => (
-          <ItemCard key={index} itemData={missingItem}></ItemCard>
+        {itemSightingData.map((itemSighting, index) => (
+          <ItemCard key={index} itemData={itemSighting}></ItemCard>
         ))}
       </div>
     </div>

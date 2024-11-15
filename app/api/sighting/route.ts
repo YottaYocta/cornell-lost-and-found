@@ -1,7 +1,16 @@
-import { ItemSighting, seenItemsResponse, SightingStatus } from "../../types";
-import { addDoc, collection } from "firebase/firestore";
+import {
+  ItemSighting,
+  itemSightingsResponse,
+  SightingStatus,
+} from "../../types";
 import { db } from "@/config";
-import { Timestamp } from "firebase/firestore";
+import {
+  getDocs,
+  addDoc,
+  collection,
+  QuerySnapshot,
+  Timestamp,
+} from "firebase/firestore";
 
 const fakeSeenItemData: ItemSighting[] = [
   {
@@ -106,11 +115,42 @@ const fakeSeenItemData: ItemSighting[] = [
   },
 ];
 
+interface FirestoreItemSighting {
+  name: string;
+  contact: string;
+  image: string | null;
+  messages: [];
+  description?: string;
+  timePosted: Timestamp;
+  status: string;
+  resolved: boolean;
+}
+
 export const GET = async () => {
-  const seenData: seenItemsResponse = {
-    itemsSeen: fakeSeenItemData,
-  };
-  return Response.json(seenData);
+  const itemSightingList: ItemSighting[] = [];
+  const itemSightingSnapshot: QuerySnapshot = await getDocs(
+    collection(db, "itemSightings")
+  );
+  itemSightingSnapshot.forEach((itemSighting) => {
+    const itemSightingFirestoreData: FirestoreItemSighting =
+      itemSighting.data() as FirestoreItemSighting;
+    const itemSightingData: ItemSighting = {
+      name: itemSightingFirestoreData.name,
+      contact: itemSightingFirestoreData.contact,
+      image:
+        itemSightingFirestoreData.image === null
+          ? undefined
+          : itemSightingFirestoreData.image,
+      description: itemSightingFirestoreData.description,
+      timePosted: itemSightingFirestoreData.timePosted.toDate(),
+      resolved: itemSightingFirestoreData.resolved,
+      status: itemSightingFirestoreData.status as SightingStatus,
+    };
+    itemSightingList.push(itemSightingData);
+    console.log(itemSightingData.timePosted instanceof Date);
+  });
+  console.log(itemSightingList);
+  return Response.json({ itemSightings: itemSightingList });
 };
 
 export const POST = async (req: Request) => {
@@ -132,7 +172,7 @@ export const POST = async (req: Request) => {
           ? null
           : image,
       description: description,
-      timePosted: Timestamp.fromDate(timePosted),
+      timePosted: Timestamp.fromDate(new Date(timePosted)),
       resolved: resolved,
       contact:
         contact === undefined || contact == null || contact.length <= 1
