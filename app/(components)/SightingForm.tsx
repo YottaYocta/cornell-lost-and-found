@@ -21,7 +21,7 @@ import {
 } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { SightingStatus } from "../types";
+import { ItemSighting, SightingStatus } from "../types";
 
 const SightingSchema = z.object({
   name: z.string().min(1),
@@ -48,8 +48,31 @@ const SightingForm = () => {
     },
   });
 
-  const onSubmit = (values: z.infer<SightingSchemaType>) => {
-    console.log(values);
+  const onSubmit = async (values: z.infer<SightingSchemaType>) => {
+    const data: ItemSighting = {
+      name: values.name,
+      image: values.image,
+      description: values.description,
+      timePosted: new Date(),
+      resolved: false,
+      contact: values.contact,
+      status: values.sightingStatus,
+    };
+    const settings = {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    };
+    try {
+      const fetchResponse = await fetch("/api/sighting", settings);
+      const resData = await fetchResponse.json();
+      console.log("Response: ", resData);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (

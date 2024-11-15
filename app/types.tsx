@@ -1,9 +1,7 @@
 export interface ItemData {
   name: string;
-  image?: string; // link for now
+  image: string | undefined;
   description?: string;
-  location?: string;
-  timeLost?: Date;
   timePosted: Date;
   resolved: boolean;
 }
@@ -21,7 +19,7 @@ export enum SightingStatus {
 }
 
 export interface ItemSighting extends ItemData {
-  contact?: string;
+  contact: string | undefined;
   status: SightingStatus;
 }
 

@@ -14,6 +14,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { MissingItem } from "../types";
 
 const LostSchema = z.object({
   name: z.string().min(1),
@@ -34,8 +35,32 @@ const LostForm = () => {
     },
   });
 
-  const onSubmit = (values: z.infer<LostSchemaType>) => {
-    console.log(values);
+  const onSubmit = async (values: z.infer<LostSchemaType>) => {
+    const data: MissingItem = {
+      name: values.name,
+      image: values.image,
+      description: values.description,
+      timePosted: new Date(),
+      resolved: false,
+      contact: values.contact,
+      messages: [],
+    };
+    const settings = {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    };
+
+    try {
+      const fetchResponse = await fetch("/api/missing", settings);
+      const resData = await fetchResponse.json();
+      console.log("Response: ", resData);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
