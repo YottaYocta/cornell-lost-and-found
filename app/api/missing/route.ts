@@ -1,7 +1,13 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { MissingItem, MissingDataResponse } from "../../types";
 import { db } from "@/config";
-import { addDoc, collection } from "firebase/firestore";
+import {
+  getDocs,
+  addDoc,
+  collection,
+  QuerySnapshot,
+  Timestamp,
+} from "firebase/firestore";
 
 const fakeMissingItemData: MissingItem[] = [
   {
@@ -106,11 +112,40 @@ const fakeMissingItemData: MissingItem[] = [
   },
 ];
 
+interface FirestoreMissingItem {
+  name: string;
+  contact: string;
+  image: string | null;
+  messages: [];
+  description?: string;
+  timePosted: Timestamp;
+  resolved: boolean;
+}
+
 export const GET = async () => {
-  const missingData: MissingDataResponse = {
-    missingItems: fakeMissingItemData,
-  };
-  return Response.json(missingData);
+  const missingItemList: MissingItem[] = [];
+  const missingItemSnapshot: QuerySnapshot = await getDocs(
+    collection(db, "missingItems")
+  );
+  missingItemSnapshot.forEach((missingItem) => {
+    const missingItemFirestoreData: FirestoreMissingItem =
+      missingItem.data() as FirestoreMissingItem;
+    const missingItemData: MissingItem = {
+      name: missingItemFirestoreData.name,
+      contact: missingItemFirestoreData.contact,
+      image:
+        missingItemFirestoreData.image === null
+          ? undefined
+          : missingItemFirestoreData.image,
+      messages: missingItemFirestoreData.messages,
+      description: missingItemFirestoreData.description,
+      timePosted: missingItemFirestoreData.timePosted.toDate(),
+      resolved: missingItemFirestoreData.resolved,
+    };
+    missingItemList.push(missingItemData);
+    console.log(missingItemData.timePosted instanceof Date);
+  });
+  return Response.json({ missingItems: missingItemList });
 };
 
 export const POST = async (req: Request) => {
@@ -129,7 +164,7 @@ export const POST = async (req: Request) => {
       image:
         image == undefined || image == null || image.length <= 1 ? null : image,
       description: description,
-      timePosted: timePosted,
+      timePosted: Timestamp.fromDate(new Date(timePosted)),
       resolved: resolved,
       contact: contact,
     });

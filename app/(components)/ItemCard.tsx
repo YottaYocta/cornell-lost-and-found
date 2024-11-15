@@ -23,6 +23,7 @@ const ItemCard = ({ itemData }: { itemData: ItemData }) => {
               "..."
             : itemData.description}
         </p>
+        {itemData.timePosted ? <p>{itemData.timePosted.toString()}</p> : <></>}
       </CardContent>
     </Card>
   );

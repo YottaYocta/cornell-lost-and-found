@@ -1,6 +1,7 @@
 import { ItemSighting, seenItemsResponse, SightingStatus } from "../../types";
 import { addDoc, collection } from "firebase/firestore";
 import { db } from "@/config";
+import { Timestamp } from "firebase/firestore";
 
 const fakeSeenItemData: ItemSighting[] = [
   {
@@ -131,7 +132,7 @@ export const POST = async (req: Request) => {
           ? null
           : image,
       description: description,
-      timePosted: timePosted,
+      timePosted: Timestamp.fromDate(timePosted),
       resolved: resolved,
       contact:
         contact === undefined || contact == null || contact.length <= 1
